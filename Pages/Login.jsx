@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { firebase } from '../Pages/firebase/config'
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
+
+    const [getEmail, setEmail] = useState('');
+    const [getPassword, setPassword] = useState('');
+    const handleRgister = () => {
+firebase.auth().createUserWithEmailAndPassword(email, password).then(()=>{
+
+}).catch((error))
+    }
+
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="Email" />
-            <TextInput style={styles.input} placeholder="Password" />
+            <TextInput style={styles.input} placeholder="Email" onChangeText={(getEmail) => setEmail(getEmail)} />
+            <TextInput style={styles.input} placeholder="Password" onChangeText={(getPassword) => setPassword(getPassword)} />
 
             <TouchableOpacity>
                 <Text style={styles.button}>Sign In</Text>
