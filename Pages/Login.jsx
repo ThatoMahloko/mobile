@@ -10,10 +10,8 @@ const Login = ({ navigation }) => {
 
     const [getEmail, setEmail] = useState('');
     const [getPassword, setPassword] = useState('');
-    const handleRgister = () => {
-        // firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
 
-        // }).catch((error));
+    const handleLogin = () => {
         firebase.auth().signInWithEmailAndPassword(getEmail, getPassword).then(() => {
             alert("it's working!!")
         }).catch((err) => {
@@ -31,7 +29,7 @@ const Login = ({ navigation }) => {
             <TextInput style={styles.input} value={getPassword} secureTextEntry placeholder="Password" onChangeText={(getPassword) => setPassword(getPassword)} />
 
             <TouchableOpacity>
-                <Text style={styles.button}>Sign In</Text>
+                <Text style={styles.button} onPress={handleLogin}>Sign In</Text>
             </TouchableOpacity>
 
             <View style={styles.textView}>

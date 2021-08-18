@@ -6,26 +6,42 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import firebase from 'firebase';
 
 const SignUp = ({ navigation }) => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [mail, setMail] = useState('');
     const [pass, setPass] = useState('');
     const [error, setError] = useState('');
 
-    const signup = async () => {
+    const handleSignup = () => {
         try {
-            firebase.auth().createUserWithEmailAndPassword(mail, pass);
+            firebase.auth().createUserWithEmailAndPassword(mail, pass).then(() => {
+                firebase.firestore().collection("").doc(id).set({
+                    id: id,
+                    user: user,
+                    email: mail,
+                })
+                    .then(() => {
+                        alert("Weolcome" + user);
+                    }).catch(error => {
+                        alert("Sign up failed");
+                        console.log(error);
+                    });
+            }).catch(error => {
+                console.log(error);
+            })
         }
         catch (err) {
-            setError(err.message)
+            setError(err.message);
         }
     }
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="First Name" />
-            <TextInput style={styles.input} placeholder="Last Name" />
-            <TextInput style={styles.input} keyboardType={'email-address'} placeholder="Email" />
-            <TextInput style={styles.input} secureTextEntry placeholder="Password" />
-            <TouchableOpacity onPress={() => signup}>
+            <TextInput style={styles.input} keyboardType={'default'} placeholder="First Name" onChangeText={(firstName) => setFirstName(firstName)} />
+            <TextInput style={styles.input} keyboardType={'default'} placeholder="Last Name" onChangeText={(lastName) => setLastName(lastName)} />
+            <TextInput style={styles.input} keyboardType={'email-address'} placeholder="Email" onChangeText={(mail) => setMail(mail)} />
+            <TextInput style={styles.input} secureTextEntry placeholder="Password" onChangeText={(pass) => setPass(pass)} />
+            <TouchableOpacity onPress={handleSignup}>
                 <Text style={styles.button} >Sign In</Text>
             </TouchableOpacity>
             {error ? <Text>{error}</Text> : navigation.navigate('Home')}
