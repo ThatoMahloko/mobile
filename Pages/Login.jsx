@@ -25,7 +25,7 @@ const Login = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} value={getEmail} placeholder="Email" onChangeText={(getEmail) => setEmail(getEmail)} />
+            <TextInput style={styles.input} value={getEmail} keyboardType={'email-address'} placeholder="Email" onChangeText={(getEmail) => setEmail(getEmail)} />
             <TextInput style={styles.input} value={getPassword} secureTextEntry placeholder="Password" onChangeText={(getPassword) => setPassword(getPassword)} />
 
             <TouchableOpacity>
