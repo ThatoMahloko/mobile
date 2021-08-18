@@ -1,19 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import firebase from 'firebase';
 
-const SignUp = ({navigation}) => {
+const SignUp = ({ navigation }) => {
+    const [mail, setMail] = useState('');
+    const [pass, setPass] = useState('');
+    const [error, setError] = useState('');
+
+    const signup = async () => {
+        try {
+            firebase.auth().createUserWithEmailAndPassword(mail, pass);
+        }
+        catch (err) {
+            setError(err.message)
+        }
+    }
+
     return (
         <View style={styles.container}>
             <TextInput style={styles.input} placeholder="First Name" />
             <TextInput style={styles.input} placeholder="Last Name" />
-            <TextInput style={styles.input} placeholder="Email" />
-            <TextInput style={styles.input} placeholder="Password" />
-            <TouchableOpacity>
-                <Text style={styles.button}>Sign In</Text>
+            <TextInput style={styles.input} keyboardType={'email-address'} placeholder="Email" />
+            <TextInput style={styles.input} secureTextEntry placeholder="Password" />
+            <TouchableOpacity onPress={() => signup}>
+                <Text style={styles.button} >Sign In</Text>
             </TouchableOpacity>
+            {error ? <Text>{error}</Text> : navigation.navigate('Home')}
         </View>
     );
 }

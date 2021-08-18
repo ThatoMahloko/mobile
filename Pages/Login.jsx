@@ -3,9 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { firebase } from '../Pages/firebase/config'
+import { firebase } from './firebase/config'
 
-const Login = ({ navigation }) =>{
+
+const Login = ({ navigation }) => {
 
     const [getEmail, setEmail] = useState('');
     const [getPassword, setPassword] = useState('');
@@ -13,18 +14,21 @@ const Login = ({ navigation }) =>{
         // firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
 
         // }).catch((error));
-        firebase.registerWithEmail(email, password, name, function(err, result){
-            if (err)
+        firebase.auth().signInWithEmailAndPassword(getEmail, getPassword).then(() => {
+            alert("it's working!!")
+        }).catch((err) => {
+            if (err) {
                 console.log(err);
-            else
-                console.log(result);
-        });
-    }
+            }
+        })
 
+
+
+    }
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="Email" onChangeText={(getEmail) => setEmail(getEmail)} />
-            <TextInput style={styles.input} placeholder="Password" onChangeText={(getPassword) => setPassword(getPassword)} />
+            <TextInput style={styles.input} value={getEmail} placeholder="Email" onChangeText={(getEmail) => setEmail(getEmail)} />
+            <TextInput style={styles.input} value={getPassword} secureTextEntry placeholder="Password" onChangeText={(getPassword) => setPassword(getPassword)} />
 
             <TouchableOpacity>
                 <Text style={styles.button}>Sign In</Text>
@@ -33,12 +37,15 @@ const Login = ({ navigation }) =>{
             <View style={styles.textView}>
                 <Text style={styles.text}>Don't have an account?</Text>
                 <TouchableOpacity >
-                    <Text style={styles.textLink} onPress={() => navigation.navigate('SignUp')}> Sign Up</Text>
+                    <Text style={styles.textLink} onPress={()=>navigation.navigate('SignUp')}> Sign Up</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
+
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
