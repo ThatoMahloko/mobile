@@ -5,14 +5,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { firebase } from '../Pages/firebase/config'
 
-const Login = ({ navigation }) => {
+const Login = ({ navigation }) =>
 
     const [getEmail, setEmail] = useState('');
     const [getPassword, setPassword] = useState('');
     const handleRgister = () => {
-firebase.auth().createUserWithEmailAndPassword(email, password).then(()=>{
+        // firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
 
-}).catch((error))
+        // }).catch((error));
+        firebase.registerWithEmail(email, password, name, function(err, result){
+            if (err)
+                console.log(err);
+            else
+                console.log(result);
+        });
     }
 
     return (
