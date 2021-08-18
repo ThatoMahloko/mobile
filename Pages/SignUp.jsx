@@ -12,27 +12,24 @@ const SignUp = ({ navigation }) => {
     const [pass, setPass] = useState('');
     const [error, setError] = useState('');
 
+    
+
     const handleSignup = () => {
-        try {
-            firebase.auth().createUserWithEmailAndPassword(mail, pass).then(() => {
-                firebase.firestore().collection("").doc(id).set({
-                    id: id,
-                    user: user,
-                    email: mail,
-                })
-                    .then(() => {
-                        alert("Weolcome" + user);
-                    }).catch(error => {
-                        alert("Sign up failed");
-                        console.log(error);
-                    });
-            }).catch(error => {
-                console.log(error);
-            })
-        }
-        catch (err) {
-            setError(err.message);
-        }
+        
+        firebase.auth().createUserWithEmailAndPassword(mail, pass)
+        .then(() => {
+            var db = firebase.firestore();
+            db.collection("users").doc(firstName).set({
+                firstName: firstName,
+                lastName: lastName, })
+            .then(() => {
+                alert("signed up")
+                {navigation.navigate('Login')}
+            }).catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+        })
+        
     }
 
     return (
