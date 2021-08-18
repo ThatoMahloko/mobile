@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { firebase } from '../Pages/firebase/config'
 
-const Login = ({ navigation }) =>
+const Login = ({ navigation }) =>{
 
     const [getEmail, setEmail] = useState('');
     const [getPassword, setPassword] = useState('');
