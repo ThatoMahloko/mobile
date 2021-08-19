@@ -21,30 +21,30 @@ const SignUp = ({ navigation }) => {
     //     // {navigation.navigate('SignUp')};
     // }
     var db = firebase.firestore();
+    // const user = firebase.auth().;
     const handleSignup = () => {
-        firebase.auth().createUserWithEmailAndPassword(mail, pass).then(() => {
 
-            if (pass !== confirmPass) {
-                alert("passwords don't match!");
-            } else {
-                db.collection("users").doc(firstName).set({ firstName: firstName, lastName: lastName, }).then(() => {
-                    { navigation.navigate('Home') };
-                    var selectedGroupID = document.getElementById('inputField');
-                    selectedGroupID = '';
+        if (pass !== confirmPass) {
+            alert("passwords don't match!");
+
+        } else if (pass === confirmPass) {
+            db.collection("users").doc(firstName).set({ firstName: firstName, lastName: lastName, }).then(() => {
+                { navigation.navigate('Login') };
+                alert("Profile created successfully!!")
+                firebase.auth().createUserWithEmailAndPassword(mail, pass).then(() => {
+                }).catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    if (errorCode == 'auth/weak-password') {
+                        alert('The password is too weak.');
+                    } else {
+                        alert(errorMessage);
+                    }
+                    console.log(error);
                 });
-            }
-
-        }).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            if (errorCode == 'auth/weak-password') {
-                alert('The password is too weak.');
-            } else {
-                alert(errorMessage);
-            }
-            console.log(error);
-        })
+            });
+        }
     }
 
 

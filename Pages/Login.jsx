@@ -26,6 +26,7 @@ const Login = ({ navigation }) => {
               alert(errorMessage);
             }
             console.log(error);
+
         })
 
 
