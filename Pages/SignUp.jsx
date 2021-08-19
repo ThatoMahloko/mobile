@@ -10,40 +10,58 @@ const SignUp = ({ navigation }) => {
     const [lastName, setLastName] = useState('');
     const [mail, setMail] = useState('');
     const [pass, setPass] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
     const [error, setError] = useState('');
 
-    
-
+    // if (pass === confirmPass) {
+    //     alert('Passwords match');
+    //     { navigation.navigate('Login') };            
+    // } else {
+    //     alert("Passwords don't match!!");
+    //     // {navigation.navigate('SignUp')};
+    // }
+    var db = firebase.firestore();
     const handleSignup = () => {
-        
-        firebase.auth().createUserWithEmailAndPassword(mail, pass)
-        .then(() => {
-            var db = firebase.firestore();
-            db.collection("users").doc(firstName).set({
-                firstName: firstName,
-                lastName: lastName, })
-            .then(() => {
-                alert("signed up")
-                {navigation.navigate('Login')}
-            }).catch((error) => {
-                console.error("Error adding document: ", error);
-            });
+        firebase.auth().createUserWithEmailAndPassword(mail, pass).then(() => {
+
+            if (pass !== confirmPass) {
+                alert("passwords don't match!");
+            } else {
+                db.collection("users").doc(firstName).set({ firstName: firstName, lastName: lastName, }).then(() => {
+                    { navigation.navigate('Home') };
+                    var selectedGroupID = document.getElementById('inputField');
+                    selectedGroupID = '';
+                });
+            }
+
+        }).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode == 'auth/weak-password') {
+                alert('The password is too weak.');
+            } else {
+                alert(errorMessage);
+            }
+            console.log(error);
         })
-        
     }
+
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} keyboardType={'default'} placeholder="First Name" onChangeText={(firstName) => setFirstName(firstName)} />
-            <TextInput style={styles.input} keyboardType={'default'} placeholder="Last Name" onChangeText={(lastName) => setLastName(lastName)} />
-            <TextInput style={styles.input} keyboardType={'email-address'} placeholder="Email" onChangeText={(mail) => setMail(mail)} />
-            <TextInput style={styles.input} secureTextEntry placeholder="Password" onChangeText={(pass) => setPass(pass)} />
+            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="First Name" onChangeText={(firstName) => setFirstName(firstName)} required />
+            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="Last Name" onChangeText={(lastName) => setLastName(lastName)} />
+            <TextInput style={styles.input} id="inputField" keyboardType={'email-address'} placeholder="Email" onChangeText={(mail) => setMail(mail)} />
+            <TextInput style={styles.input} id="inputField" secureTextEntry placeholder="Password" onChangeText={(pass) => setPass(pass)} />
+            <TextInput style={styles.input} id="inputField" secureTextEntry placeholder="Confirm Password" onChangeText={(confirmPass) => setConfirmPass(confirmPass)} />
             <TouchableOpacity onPress={handleSignup}>
                 <Text style={styles.button} >Sign In</Text>
             </TouchableOpacity>
             {error ? <Text>{error}</Text> : navigation.navigate('Home')}
         </View>
     );
+
 }
 
 const styles = StyleSheet.create({

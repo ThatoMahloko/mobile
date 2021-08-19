@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { firebase } from './firebase/config'
+// import Home from './Pages/Home';
 
 
 const Login = ({ navigation }) => {
@@ -13,11 +14,18 @@ const Login = ({ navigation }) => {
 
     const handleLogin = () => {
         firebase.auth().signInWithEmailAndPassword(getEmail, getPassword).then(() => {
-            alert("it's working!!")
-        }).catch((err) => {
-            if (err) {
-                console.log(err);
+            alert("it's working!!");
+            {navigation.navigate('Home')}
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode === 'auth/wrong-password') {
+              alert('Wrong password.');
+            } else {
+              alert(errorMessage);
             }
+            console.log(error);
         })
 
 
@@ -35,7 +43,7 @@ const Login = ({ navigation }) => {
             <View style={styles.textView}>
                 <Text style={styles.text}>Don't have an account?</Text>
                 <TouchableOpacity >
-                    <Text style={styles.textLink} onPress={()=>navigation.navigate('SignUp')}> Sign Up</Text>
+                    <Text style={styles.textLink} onPress={() => navigation.navigate('SignUp')}> Sign Up</Text>
                 </TouchableOpacity>
             </View>
         </View>
