@@ -42,11 +42,13 @@ const Home = () => {
 
     const handleFetchAndDisplayData = () => {
         //J3hZjam3n7SnffFZik7XuStiJ473
-
-        firebase.firestore().collection('data').doc("J3hZjam3n7SnffFZik7XuStiJ473").collection('albums').get().then((data)=>{
+alert("do stuff")
+        firebase.firestore().collection('data').doc(uid).collection('albums').get().then((data)=>{
             data.docs.forEach((item)=>{
                 console.log(item.data())
             })
+        }).catch((error)=>{
+            console.log(error)
         });
       
     }
