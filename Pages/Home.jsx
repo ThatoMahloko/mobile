@@ -1,20 +1,44 @@
-import React, {useState} from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, DatePickerIOSBase} from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, DatePickerIOSBase } from 'react-native';
 import DatePicker from "react-datepicker";
 import firebase from 'firebase'
 import "react-datepicker/dist/react-datepicker.css";
 const Home = () => {
-    const [startDate, setStartDate] = useState(new Date());
+    const [releaseDate, setRelaeaseDate] = useState(new Date());
+    const [artistName, setArtistName] = useState(new Date());
+    const [albumTite, setAlbumTitle] = useState(new Date());
+    const [songTitle, setSongTitle] = useState(new Date());
+    const [uid, setUid] = useState(new Date());
 
+    var db = firebase.firestore();
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
+                setUid(user.uid);
+            }
+        });
+    });
+
+    const handleSetBookmark = () => {
+        db.collection("data").doc(uid).collection('albums').add({ artistName: artistName, albumTite: albumTite, songTitle: songTitle, releaseDate: releaseDate }).then(() => {
+            alert("Profile created successfully!!")
+
+        }).catch(()=>{
+            alert('Something went wrong, log out and try again!!');
+        })
+    }
     return (
+
         <View style={styles.container}>
             <Text style={styles.text}>Music Bookmark Page</Text>
-            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="Artist" onChangeText={(lastName) => setLastName(lastName)} />
-            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="Album" onChangeText={(lastName) => setLastName(lastName)} />
-            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="Song Title" onChangeText={(lastName) => setLastName(lastName)} />
-            <TextInput style={styles.input} id="inputField" keyboardType={'decimal-pad'} placeholder="Release date" onChangeText={(lastName) => setLastName(lastName)} />
+            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="Artist" onChangeText={(artistName) => setArtistName(artistName)} />
+            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="Album" onChangeText={(albumTite) => setAlbumTitle(albumTite)} />
+            <TextInput style={styles.input} id="inputField" keyboardType={'default'} placeholder="Song Title" onChangeText={(songTitle) => setSongTitle(songTitle)} />
+            <TextInput style={styles.input} id="inputField" keyboardType={'decimal-pad'} placeholder="Release date" onChangeText={(releaseDate) => setRelaeaseDate(releaseDate)} />
             {/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} style={styles.date} /> */}
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSetBookmark}>
                 <Text style={styles.button}>touch</Text>
             </TouchableOpacity>
         </View>
@@ -67,7 +91,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 40,
     },
-    date:{
-        
+    date: {
+
     }
 })
