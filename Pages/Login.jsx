@@ -13,24 +13,22 @@ const Login = ({ navigation }) => {
     const [getPassword, setPassword] = useState('');
 
     const handleLogin = () => {
+
         firebase.auth().signInWithEmailAndPassword(getEmail, getPassword).then(() => {
             alert("it's working!!");
-            {navigation.navigate('Home')}
-        }).catch(function(error) {
+            { navigation.navigate('Home') }
+        }).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             if (errorCode === 'auth/wrong-password') {
-              alert('Wrong password.');
+                alert('Wrong password.');
             } else {
-              alert(errorMessage);
+                alert(errorMessage);
             }
             console.log(error);
 
-        })
-
-
-
+        });
     }
     return (
         <View style={styles.container}>
