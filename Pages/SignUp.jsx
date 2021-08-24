@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import firebase from 'firebase';
 
 const SignUp = ({ navigation }) => {
@@ -28,7 +25,7 @@ const SignUp = ({ navigation }) => {
             alert("passwords don't match!");
 
         } else if (pass === confirmPass) {
-            db.collection("users").doc(firstName).set({ firstName: firstName, lastName: lastName, }).then(() => {
+            db.collection("users").doc(mail).set({ firstName: firstName, lastName: lastName, }).then(() => {
                 { navigation.navigate('Login') };
                 alert("Profile created successfully!!")
                 firebase.auth().createUserWithEmailAndPassword(mail, pass).then(() => {
@@ -58,7 +55,7 @@ const SignUp = ({ navigation }) => {
             <TouchableOpacity onPress={handleSignup}>
                 <Text style={styles.button} >Sign In</Text>
             </TouchableOpacity>
-            {error ? <Text>{error}</Text> : navigation.navigate('Home')}
+            {/* {error ? <Text>{error}</Text> : navigation.navigate('Home')} */}
         </View>
     );
 

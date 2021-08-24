@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { firebase } from './firebase/config'
 // import Home from './Pages/Home';
 
@@ -15,7 +13,8 @@ const Login = ({ navigation }) => {
     const handleLogin = () => {
 
         firebase.auth().signInWithEmailAndPassword(getEmail, getPassword).then(() => {
-            alert("it's working!!");
+            
+            alert("Wellcome Back!!!");
             { navigation.navigate('Home') }
         }).catch(function (error) {
             // Handle Errors here.
