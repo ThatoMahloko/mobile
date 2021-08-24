@@ -6,8 +6,7 @@ export default function ShowData({ navigation }) {
     const [lists, setLists] = useState([]);
     const [err, setErr] = useState([]);
     var db = firebase.firestore();
-
-
+    var ff;
 
 
     useEffect(() => {
@@ -26,27 +25,42 @@ export default function ShowData({ navigation }) {
                 })
         })
 
+    }, []);
 
-
-
-    }, [])
+    const handleDelete = (ff) => {
+        firebase.auth().onAuthStateChanged((user) => {
+            ff = db.collection('data').doc(user.uid).collection('albums').doc(user.uid).delete()
+        });
+    }
 
     return (
 
         <View>
             {lists.map(items => {
-                return (<Text style={styles.text}>{items.albumTite}</Text>)
+                return (
+                    <View style={styles.container}>
+                        <Text >Title: {items.albumTite}</Text>
+                        <Text >Artist: {items.artistName}</Text>
+                        <Text >Album: {items.albumTite}</Text>
+                        <Text >Release: {items.releaseDate}</Text>
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={{ color: "white" }} onPress={()=>handleDelete(ff)}>DELETE</Text>
+                        </TouchableOpacity>
+                    </View>
+                )
             })}
+
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        borderWidth: '1px',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 80,
+        marginTop: 10,
     },
 
     input: {
