@@ -10,15 +10,7 @@ const SignUp = ({ navigation }) => {
     const [confirmPass, setConfirmPass] = useState('');
     const [error, setError] = useState('');
 
-    // if (pass === confirmPass) {
-    //     alert('Passwords match');
-    //     { navigation.navigate('Login') };            
-    // } else {
-    //     alert("Passwords don't match!!");
-    //     // {navigation.navigate('SignUp')};
-    // }
     var db = firebase.firestore();
-    // const user = firebase.auth().;
     const handleSignup = () => {
 
         if (pass !== confirmPass) {
@@ -43,7 +35,6 @@ const SignUp = ({ navigation }) => {
             });
         }
     }
-
 
     return (
         <View style={styles.container}>

@@ -17,9 +17,9 @@ export default function App({ navigation }) {
 
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="Home" component={Home} />
+        {/* <Stack.Screen name="Login" component={Login} /> */}
+        {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
+        {/* <Stack.Screen name="Home" component={Home} /> */}
         <Stack.Screen name="ShowData" component={ShowData} />
       </Stack.Navigator>
     </NavigationContainer>

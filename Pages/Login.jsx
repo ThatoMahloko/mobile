@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { firebase } from './firebase/config'
-// import Home from './Pages/Home';
-
 
 const Login = ({ navigation }) => {
 

@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, } from 'react-native';
 import firebase from 'firebase';
+import { List } from 'react-native-paper';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ShowData({ navigation }) {
-    const [lists, setLists] = useState([]);
+    const [lists, setLists] = useState([{ selctedIndex: 0 }]);
+    const [uid, setUid] = useState('');//user id state
     const [err, setErr] = useState([]);
     var db = firebase.firestore();
-    var ff;
+    var idNum = 1;
 
 
     useEffect(() => {
+        // for (idNum >= 1000; idNum; idNum++) {
+        //     idNum = idNum + 1;
+        // }
         firebase.auth().onAuthStateChanged(function (user) {
             firebase
                 .firestore()
@@ -27,24 +33,30 @@ export default function ShowData({ navigation }) {
 
     }, []);
 
-    const handleDelete = (ff) => {
-        firebase.auth().onAuthStateChanged((user) => {
-            ff = db.collection('data').doc(user.uid).collection('albums').doc(user.uid).delete()
-        });
-    }
+
+
+    // const handleDelete = (user) => {
+    //     let i = firebase.auth().currentUser.uid;
+    //     firebase.firestore().collection("Bookmarks").doc(i).collection("music").doc(user).delete().then(() => {
+    //         alert("Successfully Deleted!!")
+    //     });
+    // }
+    <Text style={{ color: "white" }} onPress={() => handleDelete(items.mail)}>DELETE</Text>
+
 
     return (
 
         <View>
+
             {lists.map(items => {
                 return (
-                    <View style={styles.container}>
+                    <View key={uuidv4} style={styles.container}>
                         <Text >Title: {items.albumTite}</Text>
                         <Text >Artist: {items.artistName}</Text>
                         <Text >Album: {items.albumTite}</Text>
                         <Text >Release: {items.releaseDate}</Text>
                         <TouchableOpacity style={styles.button}>
-                            <Text style={{ color: "white" }} onPress={()=>handleDelete(ff)}>DELETE</Text>
+                            <Text style={{ color: "white" }} onPress={}>DELETE</Text>
                         </TouchableOpacity>
                     </View>
                 )

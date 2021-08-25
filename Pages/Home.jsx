@@ -20,7 +20,7 @@ const Home = ({ navigation }) => {
                 setUid(user.uid);
             }
         });
-       
+
     });
 
     const handleSetBookmark = () => {
